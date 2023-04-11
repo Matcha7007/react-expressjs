@@ -1,0 +1,14 @@
+.env
+bin/
+.idea/
+temp/
+tmp/
+vendor/
+spek.exe
+*.exe
+upload
+node_modules
+package-lock.json
+yarn.lock
+.vscode
+public/
