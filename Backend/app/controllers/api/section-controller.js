@@ -1,10 +1,10 @@
-const { wip } = require("../../../db.js");
+const { DB } = require("../../../db.js");
 const response_format = require("../../helpers/response");
 
 class SectionController {
   GetAll = async (req, res) => {
     try {
-      const response = await wip.wip_mst_section.findMany({
+      const response = await DB.mst_section.findMany({
         select: {
           id: true,
           uuid: true,
@@ -14,7 +14,7 @@ class SectionController {
           modified_on: true,
           created_by: true,
           modified_by: true,
-          wip_mst_department: {
+          mst_department: {
             select: {
               department_name: true,
             },
@@ -34,7 +34,7 @@ class SectionController {
   GetById = async (req, res) => {
     const uuid = req.params.uuid;
     try {
-      const response = await wip.wip_mst_section.findMany({
+      const response = await DB.mst_section.findMany({
         where: {
           uuid: uuid,
         },
@@ -47,7 +47,7 @@ class SectionController {
           modified_on: true,
           created_by: true,
           modified_by: true,
-          wip_mst_department: {
+          mst_department: {
             select: {
               department_name: true,
             },
@@ -68,7 +68,7 @@ class SectionController {
   Create = async (req, res) => {
     const { section_name, department_id, user_id } = req.body;
     try {
-      const section = await wip.wip_mst_section.create({
+      const section = await DB.mst_section.create({
         data: {
           section_name: section_name,
           department_id: department_id,
@@ -96,7 +96,7 @@ class SectionController {
     const uuid = req.params.uuid;
     const date = new Date();
     try {
-      const update = await wip.wip_mst_section.updateMany({
+      const update = await DB.mst_section.updateMany({
         where: {
           uuid: uuid,
         },
@@ -125,7 +125,7 @@ class SectionController {
   Delete = async (req, res) => {
     const uuid = req.params.uuid;
     try {
-      const deleted = await wip.wip_mst_section.deleteMany({
+      const deleted = await DB.mst_section.deleteMany({
         where: {
           uuid: uuid,
         },

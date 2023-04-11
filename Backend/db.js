@@ -1,10 +1,7 @@
 const prisma = require("@prisma/client")
 
-const generate_sics = require("./node_modules/@generated/sics").PrismaClient
-const generate_wip = require("./node_modules/@generated/wip").PrismaClient
+const generate_schema = require("./prisma/@generated").PrismaClient
 
+const DB = new generate_schema()
 
-const sics = new generate_sics()
-const wip = new generate_wip()
-
-module.exports = { sics, wip }
+module.exports = { DB }

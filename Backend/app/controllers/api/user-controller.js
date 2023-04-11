@@ -1,11 +1,11 @@
-const { wip } = require("../../../db.js");
+const { DB } = require("../../../db.js");
 const response_format = require("../../helpers/response");
 const bcrypt = require("bcrypt");
 
 class UserController {
   GetAll = async (req, res) => {
     try {
-      const response = await wip.$queryRaw`
+      const response = await DB.$queryRaw`
                                SELECT 
                                     a.id,
                                     a.uuid, 
@@ -15,10 +15,10 @@ class UserController {
                                     c.department_name,
                                     d.section_name,
                                     a.role
-                                FROM wip_mst_user a 
-                                    INNER JOIN wip_mst_employee b ON a.employee_id= b.id
-                                    INNER JOIN wip_mst_department c ON b.department_id= c.id
-                                    INNER JOIN wip_mst_section d ON b.section_id= d.id
+                                FROM mst_user a 
+                                    INNER JOIN mst_employee b ON a.employee_id= b.id
+                                    INNER JOIN mst_department c ON b.department_id= c.id
+                                    INNER JOIN mst_section d ON b.section_id= d.id
                                     `;
       return res
         .status(200)
@@ -32,7 +32,7 @@ class UserController {
     const uuid = req.params.uuid;
     try {
 
-      const response = await wip.$queryRaw`
+      const response = await DB.$queryRaw`
                                SELECT 
                                     a.id,
                                     a.uuid, 
@@ -43,16 +43,16 @@ class UserController {
                                     c.department_name,
                                     d.section_name,
                                     a.role
-                                FROM wip_mst_user a 
-                                    INNER JOIN wip_mst_employee b ON a.employee_id= b.id
-                                    INNER JOIN wip_mst_department c ON b.department_id= c.id
-                                    INNER JOIN wip_mst_section d ON b.section_id= d.id
+                                FROM mst_user a 
+                                    INNER JOIN mst_employee b ON a.employee_id= b.id
+                                    INNER JOIN mst_department c ON b.department_id= c.id
+                                    INNER JOIN mst_section d ON b.section_id= d.id
                                     WHERE a.uuid::varchar  = ${uuid}`;
       return res
         .status(200)
         .send(response_format.response2(200, true, "list data user", response));
 
-      // const response = await wip.wip_mst_user.findMany({
+      // const response = await DB.mst_user.findMany({
       //   where: {
       //     uuid: uuid,
       //   }});
@@ -72,7 +72,7 @@ class UserController {
     try {
 
       
-      let userCount = await wip.wip_mst_user.count({
+      let userCount = await DB.mst_user.count({
         // where: {
         //   username: username,
         // },
@@ -97,7 +97,7 @@ class UserController {
           );
       }
 
-      const response = await wip.wip_mst_user.create({
+      const response = await DB.mst_user.create({
         data: {
           username: username,
           password: bcrypt.hashSync(password, 10),
@@ -127,7 +127,7 @@ class UserController {
     const uuid = req.params.uuid;
     const date = new Date();
     try {
-      const update = await wip.wip_mst_user.updateMany({
+      const update = await DB.mst_user.updateMany({
         where: {
           uuid: uuid,
         },
@@ -157,7 +157,7 @@ class UserController {
   Delete = async (req, res) => {
     const uuid = req.params.uuid;
     try {
-      const deleted = await wip.wip_mst_user.deleteMany({
+      const deleted = await DB.mst_user.deleteMany({
         where: {
           uuid: uuid,
         },

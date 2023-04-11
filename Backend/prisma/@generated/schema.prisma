@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./@generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model mst_role {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @db.Uuid
+  role_name   String    @db.VarChar(100)
+  created_on  DateTime? @default(now())
+  modified_on DateTime? @default(now())
+  created_by  Int?
+  modified_by Int?
+  description String    @db.VarChar(250)
+}
+
+model mst_user {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique @db.Uuid
+  username    String    @unique @db.VarChar(50)
+  password    String    @db.VarChar(250)
+  created_on  DateTime? @default(now())
+  modified_on DateTime? @default(now())
+  created_by  Int?
+  modified_by Int?
+  employee_id Int?
+  role        Json?
+}
+
+model mst_department {
+  id              Int           @id @default(autoincrement())
+  uuid            String        @unique @db.Uuid
+  department_name String        @db.VarChar(100)
+  created_on      DateTime?     @default(now())
+  modified_on     DateTime?     @default(now())
+  created_by      Int?
+  modified_by     Int?
+  wip_mst_section mst_section[]
+}
+
+model mst_section {
+  id                 Int            @id @default(autoincrement())
+  uuid               String         @unique @db.Uuid
+  department_id      Int
+  created_on         DateTime?      @default(now())
+  modified_on        DateTime?      @default(now())
+  created_by         Int?
+  modified_by        Int?
+  section_name       String         @db.VarChar(100)
+  wip_mst_department mst_department @relation(fields: [department_id], references: [id])
+}
+
+model mst_employee {
+  id            Int       @id @default(autoincrement())
+  uuid          String    @unique @db.Uuid
+  nsk           Int
+  name          String    @db.VarChar(100)
+  department_id Int?
+  section_id    Int?
+  created_on    DateTime? @default(now())
+  modified_on   DateTime? @default(now())
+  created_by    Int?
+  modified_by   Int?
+}

@@ -1,10 +1,10 @@
-const { wip } = require("../../../db.js");
+const { DB } = require("../../../db.js");
 const response_format = require("../../helpers/response");
 
 class DepartmentController {
   GetAll = async (req, res) => {
     try {
-      const response = await wip.wip_mst_department.findMany();
+      const response = await DB.mst_department.findMany();
       return res
         .status(200)
         .send(
@@ -18,7 +18,7 @@ class DepartmentController {
   Create = async (req, res) => {
     const { department_name, user_id } = req.body;
     try {
-      const department = await wip.wip_mst_department.create({
+      const department = await DB.mst_department.create({
         data: {
           department_name: department_name,
           created_by: user_id,
@@ -45,7 +45,7 @@ class DepartmentController {
     const uuid = req.params.uuid;
     const date = new Date();
     try {
-      const update = await wip.wip_mst_department.updateMany({
+      const update = await DB.mst_department.updateMany({
         where: {
           uuid: uuid,
         },
@@ -73,7 +73,7 @@ class DepartmentController {
   Delete = async (req, res) => {
     const uuid = req.params.uuid;
     try {
-        const deleted = await wip.wip_mst_department.deleteMany({
+        const deleted = await DB.mst_department.deleteMany({
             where: {
                 uuid: uuid
             }

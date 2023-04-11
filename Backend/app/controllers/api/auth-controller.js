@@ -1,4 +1,4 @@
-const { wip } = require("../../../db.js");
+const { DB } = require("../../../db.js");
 const response_format = require("../../helpers/response");
 const InvalidCredentialException = require("../../exceptions/invalid-credential-exception");
 const UnauthenticatedException = require("../../exceptions/unauthenticated-exception");
@@ -9,7 +9,7 @@ class AuthController {
     const { username, password } = req.body;
 
     try {
-      const user = await wip.wip_mst_user.findUnique({
+      const user = await DB.mst_user.findUnique({
         where: {
           username: username,
         },
@@ -39,7 +39,7 @@ class AuthController {
       // }
 
       let roleResponse = []
-      for (var role of user.role) 
+      for (let role of user.role) 
       {
         roleResponse.push(role.role_name);
       }

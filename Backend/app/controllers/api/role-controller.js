@@ -1,10 +1,10 @@
-const { wip } = require("../../../db.js");
+const { DB } = require("../../../db.js");
 const response_format = require("../../helpers/response");
 
 class RoleController {
   GetAll = async (req, res) => {
     try {
-      const response = await wip.wip_mst_role.findMany();
+      const response = await DB.mst_role.findMany();
       return res
         .status(200)
         .send(response_format.response2(200, true, "list data role", response));
@@ -17,7 +17,7 @@ class RoleController {
     const uuid = req.params.uuid;
     try {
 
-      const response = await wip.wip_mst_role.findMany({
+      const response = await DB.mst_role.findMany({
         where: {
           uuid: uuid,
         }});
@@ -33,7 +33,7 @@ class RoleController {
   Create = async (req, res) => {
     const { role_name, description, user_id } = req.body;
     try {
-      let roleCount = await wip.wip_mst_role.count({
+      let roleCount = await DB.mst_role.count({
         where: {
           role_name: role_name,
         },
@@ -52,7 +52,7 @@ class RoleController {
           );
       }
 
-      const role = await wip.wip_mst_role.create({
+      const role = await DB.mst_role.create({
         data: {
           role_name: role_name,
           description: description,
@@ -80,7 +80,7 @@ class RoleController {
     const uuid = req.params.uuid;
     const date = new Date();
     try {
-      const update = await wip.wip_mst_role.updateMany({
+      const update = await DB.mst_role.updateMany({
         where: {
           uuid: uuid,
         },
@@ -109,14 +109,14 @@ class RoleController {
   Delete = async (req, res) => {
     const uuid = req.params.uuid;
     try {
-      const roleCount = await wip.wip_mst_role.count({
+      const roleCount = await DB.mst_role.count({
         where: {
           uuid: uuid,
         },
       });
 
       if (roleCount > 0) {
-        const deleted = await wip.wip_mst_role.deleteMany({
+        const deleted = await DB.mst_role.deleteMany({
           where: {
             uuid: uuid,
           },
