@@ -50,10 +50,11 @@ module.exports = {
             const track = value === 'light' ? '100' : '900'
             const thumb = value === 'light' ? '300' : '600'
             const color = value === 'light' ? 'gray' : value
+            const theming = `colors.${color}.${thumb}`
 
             return {
               scrollbarWidth: 'thin',
-              scrollbarColor: `${theme(`colors.${color}.${thumb}`)} ${theme(
+              scrollbarColor: `${theme(theming)} ${theme(
                 `colors.${color}.${track}`
               )}`,
               '&::-webkit-scrollbar': {
